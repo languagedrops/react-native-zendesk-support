@@ -143,4 +143,16 @@ RCT_EXPORT_METHOD(supportHistory){
         [ZDKRequests presentRequestListWithViewController:vc];
     });
 }
+
+RCT_EXPORT_METHOD(setCustomFields:(NSDictionary *)customFields) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+      NSMutableArray *fields = [[NSMutableArray alloc] init];
+
+      for (NSString* key in customFields) {
+          id value = [customFields objectForKey:key];
+          [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.intValue) andValue:value]];
+      }
+      [ZDKConfig instance].customTicketFields = fields;
+  });
+}
 @end
