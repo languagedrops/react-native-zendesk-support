@@ -49,9 +49,6 @@ RCT_EXPORT_METHOD(showHelpCenterWithOptions:(NSDictionary *)options) {
         UIViewController *vc = [window rootViewController];
         ZDKHelpCenterOverviewContentModel *helpCenterContentModel = [ZDKHelpCenterOverviewContentModel defaultContent];
         helpCenterContentModel.hideContactSupport = [RCTConvert BOOL:options[@"hideContactSupport"]];
-        if (helpCenterContentModel.hideContactSupport) {
-            [ZDKHelpCenter setNavBarConversationsUIType:ZDKNavBarConversationsUITypeNone];
-        }
         vc.modalPresentationStyle = UIModalPresentationFormSheet;
         [ZDKHelpCenter presentHelpCenterOverview:vc withContentModel:helpCenterContentModel];
     });
@@ -65,9 +62,6 @@ RCT_EXPORT_METHOD(showCategoriesWithOptions:(NSArray *)categories options:(NSDic
         helpCenterContentModel.groupType = ZDKHelpCenterOverviewGroupTypeCategory;
         helpCenterContentModel.groupIds = categories;
         helpCenterContentModel.hideContactSupport = [RCTConvert BOOL:options[@"hideContactSupport"]];
-        if (helpCenterContentModel.hideContactSupport) {
-            [ZDKHelpCenter setNavBarConversationsUIType:ZDKNavBarConversationsUITypeNone];
-        }
         vc.modalPresentationStyle = UIModalPresentationFormSheet;
         [ZDKHelpCenter presentHelpCenterOverview:vc withContentModel:helpCenterContentModel];
     });
@@ -81,9 +75,6 @@ RCT_EXPORT_METHOD(showSectionsWithOptions:(NSArray *)sections options:(NSDiction
         helpCenterContentModel.groupType = ZDKHelpCenterOverviewGroupTypeSection;
         helpCenterContentModel.groupIds = sections;
         helpCenterContentModel.hideContactSupport = [RCTConvert BOOL:options[@"hideContactSupport"]];
-        if (helpCenterContentModel.hideContactSupport) {
-            [ZDKHelpCenter setNavBarConversationsUIType:ZDKNavBarConversationsUITypeNone];
-        }
         vc.modalPresentationStyle = UIModalPresentationFormSheet;
         [ZDKHelpCenter presentHelpCenterOverview:vc withContentModel:helpCenterContentModel];
     });
@@ -96,9 +87,6 @@ RCT_EXPORT_METHOD(showLabelsWithOptions:(NSArray *)labels options:(NSDictionary 
         ZDKHelpCenterOverviewContentModel *helpCenterContentModel = [ZDKHelpCenterOverviewContentModel defaultContent];
         helpCenterContentModel.labels = labels;
         helpCenterContentModel.hideContactSupport = [RCTConvert BOOL:options[@"hideContactSupport"]];
-        if (helpCenterContentModel.hideContactSupport) {
-            [ZDKHelpCenter setNavBarConversationsUIType:ZDKNavBarConversationsUITypeNone];
-        }
         vc.modalPresentationStyle = UIModalPresentationFormSheet;
         [ZDKHelpCenter presentHelpCenterOverview:vc withContentModel:helpCenterContentModel];
     });
@@ -145,14 +133,12 @@ RCT_EXPORT_METHOD(supportHistory){
 }
 
 RCT_EXPORT_METHOD(setCustomFields:(NSDictionary *)customFields) {
-  dispatch_async(dispatch_get_main_queue(), ^{
-      NSMutableArray *fields = [[NSMutableArray alloc] init];
+  NSMutableArray *fields = [[NSMutableArray alloc] init];
 
-      for (NSString* key in customFields) {
-          id value = [customFields objectForKey:key];
-          [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.intValue) andValue:value]];
-      }
-      [ZDKConfig instance].customTicketFields = fields;
-  });
+  for (NSString* key in customFields) {
+      id value = [customFields objectForKey:key];
+      [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.intValue) andValue:value]];
+  }
+  [ZDKConfig instance].customTicketFields = fields;
 }
 @end
