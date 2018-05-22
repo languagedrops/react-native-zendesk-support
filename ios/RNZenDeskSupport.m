@@ -117,7 +117,7 @@ RCT_EXPORT_METHOD(callSupport:(NSDictionary *)customFields) {
 
         for (NSString* key in customFields) {
             id value = [customFields objectForKey:key];
-            [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.intValue) andValue:value]];
+            [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.longLongValue) andValue:value]];
         }
         [ZDKConfig instance].customTicketFields = fields;
         [ZDKRequests presentRequestCreationWithViewController:vc];
