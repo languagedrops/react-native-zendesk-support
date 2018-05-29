@@ -121,13 +121,7 @@ public class RNZenDeskSupportModule extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void callSupport(ReadableMap customFields) {
-
-    List<CustomField> fields = new ArrayList<>();
-
-    for (Map.Entry<String, Object> next : customFields.toHashMap().entrySet())
-      fields.add(new CustomField(Long.parseLong(next.getKey()), (String) next.getValue()));
-
-    ZendeskConfig.INSTANCE.setCustomFields(fields);
+    setCustomFields(customFields);
 
     Activity activity = getCurrentActivity();
 

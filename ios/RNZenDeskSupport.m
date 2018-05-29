@@ -113,13 +113,8 @@ RCT_EXPORT_METHOD(callSupport:(NSDictionary *)customFields) {
         UIWindow *window=[UIApplication sharedApplication].keyWindow;
         UIViewController *vc = [window rootViewController];
 
-        NSMutableArray *fields = [[NSMutableArray alloc] init];
+        [self setZDKConfigCustomFields:customFields];
 
-        for (NSString* key in customFields) {
-            id value = [customFields objectForKey:key];
-            [fields addObject: [[ZDKCustomField alloc] initWithFieldId:@(key.longLongValue) andValue:value]];
-        }
-        [ZDKConfig instance].customTicketFields = fields;
         [ZDKRequests presentRequestCreationWithViewController:vc];
     });
 }
@@ -133,6 +128,10 @@ RCT_EXPORT_METHOD(supportHistory){
 }
 
 RCT_EXPORT_METHOD(setCustomFields:(NSDictionary *)customFields) {
+  [self setZDKConfigCustomFields:customFields];
+}
+
+- (void)setZDKConfigCustomFields: (NSDictionary *)customFields {
   NSMutableArray *fields = [[NSMutableArray alloc] init];
 
   for (NSString* key in customFields) {
